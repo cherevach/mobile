@@ -18,9 +18,9 @@ function MainScreen() {
 }
 
 function SecondScreen() {
-  const coordinate1 = new CoordinateAC('E');
-  const coordinate2 = CoordinateAC.createWithValues('E', 80, 36, 40);
-  const coordinate3 = CoordinateAC.createWithValues('E', -90, 10, 30);
+  const coordinate1 = new CoordinateAC("latitude");
+  const coordinate2 = CoordinateAC.createWithValues('latitude', 80, 36, 40);
+  const coordinate3 = CoordinateAC.createWithValues('latitude', -90, 10, 30);
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={{ textAlign: 'center', fontSize: 20, lineHeight: 80 }}>

@@ -2,40 +2,59 @@ const inRange = (value, min, max) => value >= min && value <= max;
 
 const $ = (a, b) => (a + b) / 2;
 
+const defineDirection = (direction, degrees) => {
+    switch (direction) {
+        case 'latitude':
+            return inRange(degrees, 0, 90) ? ["N", degrees] : ["S", -degrees];
+        case 'longitude':
+            return inRange(degrees, 0, 180) ? ["E", degrees] : ["W", -degrees];
+    }
+}
+
 class CoordinateAC {
-    constructor(direction = "N", degrees = 0, minutes = 0, seconds = 0) {
+    constructor(direction = 'latitude') {
         this.direction = direction;
-        this.degrees = degrees;
-        this.minutes = minutes;
-        this.seconds = seconds;
+        this.degrees = 0;
+        this.minutes = 0;
+        this.seconds = 0;
     }
 
     static createWithValues(direction, degrees, minutes, seconds) {
         switch (direction) {
-            case "N": case "S":
-                if (inRange(degrees, -90, 90) == false)
+            case 'latitude':
+                if (!inRange(degrees, -90, 90))
                     throw new RangeError('Degrees value is out of range');
                 break;
-            case "E": case "W":
-                if (inRange(degrees, -180, 180) == false)
+            case 'longitude':
+                if (!inRange(degrees, -180, 180))
                     throw new RangeError('Degrees value is out of range');
                 break;
             default:
                 throw new TypeError('Direction is not of type');
         }
 
-        if (inRange(minutes, 0, 59) == false)
+        if (!inRange(minutes, 0, 59))
             throw new RangeError('Minutes value is out of range');
 
-        if (inRange(seconds, 0, 59) == false)
+        if (!inRange(seconds, 0, 59))
             throw new RangeError('Seconds value is out of range');
 
-        return new CoordinateAC(direction, degrees, minutes, seconds)
+        const coordinate = new CoordinateAC(direction);
+        coordinate.degrees = degrees;
+        coordinate.minutes = minutes;
+        coordinate.seconds = seconds;
+        return coordinate;
     }
 
-    toString = () => `${this.degrees}°${this.minutes}′${this.seconds}″ ${this.direction}`;
+    toString = () => {
+        let [dir, deg] = defineDirection(this.direction, this.degrees);
+        return `${deg}°${this.minutes}′${this.seconds}″ ${dir}`;
+    }
 
-    toDecimal = () => `${this.degrees + this.minutes / 60 + this.seconds / 3600}° ${this.direction}`;
+    toDecimal = () => {
+        let [dir, deg] = defineDirection(this.direction, this.degrees);
+        return `${deg + this.minutes / 60 + this.seconds / 3600}° ${dir}`;
+    }
 
     middleCoordinate = ({ direction, degrees, minutes, seconds }) =>
         this.direction === direction ?
@@ -50,8 +69,8 @@ class CoordinateAC {
     static middleTwoCoordinate = (coord1, coord2) => coord1.middleCoordinate(coord2)
 }
 
-const coordinate1 = new CoordinateAC();
-const coordinate2 = CoordinateAC.createWithValues("N", 50, 20, 10);
+const coordinate1 = new CoordinateAC("longitude");
+const coordinate2 = CoordinateAC.createWithValues("longitude", -50, 20, 10);
 const coordinate3 = coordinate1.middleCoordinate(coordinate2);
 
 console.log("coordinate 1 : \n", coordinate1, "\n");
