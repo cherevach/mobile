@@ -24,10 +24,16 @@ class CoordinateAC {
             case 'latitude':
                 if (!inRange(degrees, -90, 90))
                     throw new RangeError('Degrees value is out of range');
+                if ((degrees == 90 && minutes > 0 && seconds > 0) ||
+                    (degrees == -90 && minutes > 0 && seconds > 0))
+                    throw new RangeError('Values are out of range');
                 break;
             case 'longitude':
                 if (!inRange(degrees, -180, 180))
                     throw new RangeError('Degrees value is out of range');
+                if ((degrees == 180 && minutes > 0 && seconds > 0) ||
+                    (degrees == -180 && minutes > 0 && seconds > 0))
+                    throw new RangeError('Values are out of range');
                 break;
             default:
                 throw new TypeError('Direction is not of type');
