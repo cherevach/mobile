@@ -1,27 +1,31 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';import Ionicons from 'react-native-vector-icons/Ionicons';
-import MainScreen from './screens/MainScreen'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MainScreen from './screens/MainScreen';
 import SecondScreen from './screens/SecondScreen';
- 
+import ThirdScreen from './screens/ThirdScreen';
+
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-
             let iconName;
-
-            if (route.name === 'Main') {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Charts') {
-              iconName = focused ? 'bar-chart' : 'bar-chart-outline';
+            switch (route.name) {
+              case 'Main':
+                iconName = focused ? 'home' : 'home-outline';
+                break;
+              case 'Charts':
+                iconName = focused ? 'bar-chart' : 'bar-chart-outline';
+                break;
+              case 'Books':
+                iconName = focused ? 'book' : 'book-outline';
+                break;
             }
-
             return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
@@ -32,6 +36,7 @@ export default function App() {
       >
         <Tab.Screen name='Main' component={MainScreen} />
         <Tab.Screen name='Charts' component={SecondScreen} />
+        <Tab.Screen name='Books' component={ThirdScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
