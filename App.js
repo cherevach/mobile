@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainScreen from './screens/MainScreen';
 import SecondScreen from './screens/SecondScreen';
 import ThirdScreen from './screens/ThirdScreen';
+import FourthScreen from './screens/FourthScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +26,9 @@ export default function App() {
               case 'Books':
                 iconName = focused ? 'book' : 'book-outline';
                 break;
+              case 'Images':
+                iconName = focused ? 'image' : 'image-outline';
+                break;
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
@@ -37,6 +41,7 @@ export default function App() {
         <Tab.Screen name='Main' component={MainScreen} />
         <Tab.Screen name='Charts' component={SecondScreen} />
         <Tab.Screen name='Books' component={ThirdScreen} />
+        <Tab.Screen name='Images' component={FourthScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
